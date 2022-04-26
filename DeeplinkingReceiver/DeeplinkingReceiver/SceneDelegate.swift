@@ -11,6 +11,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+      for context in URLContexts {
+        
+        getQueryItems(context.url.absoluteString)
+        
+        print("url: \(context.url.absoluteURL)")
+        print("scheme: \(context.url.scheme!)")
+        print("host: \(context.url.host)")
+//        print("path: \(context.url.path)")
+        
+      }
+    }
+    
+    func getQueryItems(_ urlString: String) -> [String : String] {
+            var queryItems: [String : String] = [:]
+            let components: NSURLComponents? = getURLComonents(urlString)
+            for item in components?.queryItems ?? [] {
+                queryItems[item.name] = item.value?.removingPercentEncoding
+                print("values \(item.name) & \(item.value!)")
+            }
+            return queryItems
+        }
+    func getURLComonents(_ urlString: String?) -> NSURLComponents? {
+            var components: NSURLComponents? = nil
+            let linkUrl = URL(string: urlString?.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")
+            if let linkUrl = linkUrl {
+                components = NSURLComponents(url: linkUrl, resolvingAgainstBaseURL: true)
+            }
+            return components
+        }
+    
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.

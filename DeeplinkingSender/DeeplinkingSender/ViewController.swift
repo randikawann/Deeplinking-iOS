@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func openReceiver(_ sender: Any) {
-        guard let url = URL(string: "ranApp://") else{
+        guard let url = URL(string: "ranApp://dfvbjkfvnj.com?username=kvdf&clientid=343") else{
              return
         }
         if(UIApplication.shared.canOpenURL(url)){
